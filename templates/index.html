@@ -1,0 +1,40 @@
+<html>
+	<head>
+		<title></title>
+    </head>
+	<body>
+		<form action="/Calculate" method="POST">
+			<div style = "display:flex;">
+				<div>
+					{{range $i, $e := .M.MTRX }}
+						<div style = "display:flex;">
+							{{range $j, $q := $e.Vec}}
+								<div>
+									<input id="mtrx{{$i}}{{$j}}" name="mtrx{{$i}}{{$j}}" style = "margin: 10px; width: 40px;" value="{{$q}}"/>
+								</div>
+							{{end}}
+						</div>
+					{{end}}
+				</div>
+				<div>
+					{{range $j, $q := .V.Vec}}
+						<div>
+							<input id="vec{{$j}}" name="vec{{$j}}" type="number" style = "margin: 10px; width: 40px;" value="{{$q}}"/>
+						</div>
+					{{end}}
+				</div>
+				<div>
+					{{range $j, $q := .X}}
+						<div>
+							<input type="number" style = "margin: 10px; width: 60px;" value="{{$q}}"/>
+						</div>
+					{{end}}
+				</div>
+			</div>
+			<input type="submit" value="Calculate"/>
+		</form>
+		<form action="/Clear" method="POST">
+			<input type="submit" value="Clear"/>
+		</form>
+	</body>
+</html>
