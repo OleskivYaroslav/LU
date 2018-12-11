@@ -2,21 +2,86 @@ package main
 
 import (
     "fmt"
-	"./lupac"
-	"./arr"
 	"net/http"
 	"html/template"
 	"strconv"
+	"os"
+	"encoding/json"
+	"io/ioutil"
 )
 
+type Arr interface {
+	ReadJson()
+	Read()
+	Write()
+	Create(int64)
+}
+
+type Vector struct {
+	Vec []float64 `json:"Vec"`
+}
+
+func (v *Vector) Read() {
+}
+
+func (v Vector) Write() {
+	fmt.Println(v)
+}
+
+func (v *Vector) ReadJson() {
+	file, err := os.Open("vect.txt")
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer file.Close()
+	byteValue, _ := ioutil.ReadAll(file)
+	json.Unmarshal(byteValue, &v)
+}
+
+func (v *Vector) Create(n int64) {
+	v.Vec = make([]float64, n)
+}
+
+type Matrix struct {
+	MTRX []Vector `json:"MTRX"`
+}
+
+func (m *Matrix) Read() {
+	
+}
+
+func (m Matrix) Write() {
+	fmt.Println(m)
+}
+
+func (m *Matrix) ReadJson() {
+	file, err := os.Open("mtrx.txt")
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer file.Close()
+	byteValue, _ := ioutil.ReadAll(file)
+	json.Unmarshal(byteValue, &m)
+}
+
+func (m *Matrix) Create(n int64) {
+	
+	m.MTRX = make([]Vector, n)
+	for i := range m.MTRX{
+		var v Vector
+		v.Create(n)
+		m.MTRX[i] = v
+	}
+}
+
 type LUStr struct {
-	M arr.Matrix
-	V arr.Vector
+	M Matrix
+	V Vector
 	X []float64
 }
 	const n = 3
-	var k arr.Matrix
-	var v arr.Vector
+	var k Matrix
+	var v Vector
 	var x []float64
 	var lustr LUStr
 
@@ -37,7 +102,7 @@ func calculate(w http.ResponseWriter, r *http.Request) {
 		q:=r.FormValue("vec"+strconv.Itoa(i))
 		lustr.V.Vec[i],_=strconv.ParseFloat(q,64)
 	}
-	lustr.X = lupac.LUStruct(lustr.M, lustr.V)
+	lustr.X = LUStruct(lustr.M, lustr.V)
 	
 	t := template.Must(template.ParseGlob("templates/*.html"))
 	t.ExecuteTemplate(w, "index.html", lustr)
@@ -71,3 +136,5 @@ func main() {
 	http.ListenAndServe(":3000", nil)
 		
 }
+
+
