@@ -1,1 +1,1 @@
-// +heroku goVersion go1.6
+// +heroku goVersion go1.11
