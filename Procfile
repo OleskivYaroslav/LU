@@ -1,1 +1,1 @@
-web: LU
+web: go-getting-started

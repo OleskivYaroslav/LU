@@ -5,4 +5,4 @@ build:
     - go
 
 run:
-  web: LU
+  web: go-getting-started
