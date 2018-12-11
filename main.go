@@ -132,8 +132,13 @@ func main() {
 	http.HandleFunc("/Calculate", calculate)
 	http.HandleFunc("/Clear", clear)
 	
-	fmt.Println("Listening on port :3000")
-	http.ListenAndServe(":3000", nil)
+	fmt.Println("Listening on port :3000")	
+	port := os.Getenv("PORT")
+	if port == "" {
+		port ="8000"	
+	}
+
+	http.ListenAndServe(":"+port, nil)
 		
 }
 
