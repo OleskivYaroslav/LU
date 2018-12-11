@@ -2,8 +2,8 @@ package main
 
 import (
     "fmt"
-	"./lupac"
-	"./arr"
+	"lupac/lupac"
+	"arr/arr"
 	"net/http"
 	"html/template"
 	"strconv"
